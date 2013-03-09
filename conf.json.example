@@ -1,0 +1,10 @@
+{
+   "bindtoip": "127.0.0.1",
+ "bindtoport": 56649,
+   "channels": [ "#asdf1", "#asdf2" ],
+    "logchan": "#somewhere",
+       "pass": "asdf",
+     "server": "asdf",
+    "netname": "something"
+}
+
