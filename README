@@ -1,0 +1,28 @@
+MitchServ was a simple pseudoserver written for IotaIRC. The protocol that
+this pseudoserver is unrealircd protocol number 2309, but it is compatable
+with newer versions of UnrealIRCd.
+
+How to set up (on debian):
+git clone https://github.com/soccermitchy/mitchserv.git
+cd mitchserv
+sudo apt-get install lua luarocks
+luarocks install luasocket nano
+cp conf.json.example conf.json
+nano conf.json
+
+
+Running is as simple as this:
+lua init.lua
+
+If you want it to be a bit faster: 
+luac init.lua -o init.luac
+lua init.lua
+
+To kill it, just do /msg MitchServ >shutdown
+Lua code could be run by /msg MitchServ >lua (code)
+
+To give yourself permissions, edit all the files in src/services and 
+replace "wolfmitchell" or usr=="iota" -- with your nickname, in quotes.
+You may have to tweak some stuff from src/services/welcome.lua for 
+it to work properly.
+
