@@ -47,3 +47,4 @@ function quoteserv(usr,target,msg)
     end
 end
 
+cmdfuncs[quoteserv]=quoteserv

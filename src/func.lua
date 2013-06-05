@@ -1,6 +1,6 @@
 function rawline(raw) -- The base of most of the soon-to-be module API. Although that will be implemented after configuration is. And after I parse what other servers send properly.
     client:send(raw.."\n")
-    client:send(":MitchServ ! #debug.lua :[SERV]-->[IRCD] "..raw.."\n")
+    client:send(":MitchServ ! "..config.logchan.." :[SERV]-->[IRCD] "..raw.."\n")
     print("[SERV]-->[IRCD] "..raw)
 end
 function umode(nick,mode)
@@ -22,6 +22,14 @@ function smesg(as,to,msg)
     rawline(":"..as.." ! "..to.." :"..msg)
 end
 function userjoin(nick,channel,users)
+    if not users then users={} end
+    if not users[nick] then
+	    users[nick]={}
+	    users[nick].channels={}
+	    users[nick].username="asdf"
+	    users[nick].hostname="asdf"
+	    users[nick].realname="asdf"
+    end
     print("uj: type(nick)="..type(nick))
     print("uj: type(users[nick])="..type(users[nick]))
     rawline(":"..nick.." C "..channel)
@@ -44,10 +52,11 @@ function rawhandler(data)
         rawline("9 mitch.serv :"..string.match(data,"8 :(.+)"))
     elseif string.match(data,":(.-) ! (.-) :(.*)") then
         local user,target,msg=string.match(data,":(.-) ! (.-) :(.*)")
-            if target==k then target=user end
+        if target==k then target=user end
         msghandler(user,target,msg)
     end
-    print("[IRCD-->[SERV] "..data)
-    rawline(":MitchServ ! #debug.lua :[IRCD]-->[SERV]"..stripLeadingSpaces(data))
+    print("[IRCD]-->[SERV] "..data)
+    if data:sub(1,#'[IRCD]-->[SERV]')=='[IRCD]-->[SERV]' then return end
+    client:send(":MitchServ ! "..config.logchan.." :[IRCD]-->[SERV] "..stripLeadingSpaces(data).."\n")
 end
 

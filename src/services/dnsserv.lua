@@ -1,8 +1,7 @@
 dnsserv={}
 
-function dnscheck(zone,i)
-	i=i+1
-	smesg("MitchServ","#debug.lua","[DNSBL] Checking "..zone.." (Currently on check #"..tostring(i)..")")
+function dnscheck(zone)
+--	smesg("MitchServ","#debug.lua","[DNSBL] Checking "..zone.." (Currently on check #"..tostring(i)..")")
 	local digout=io.popen("dig "..zone):read'*a'
 	return digout:match", status: (.+), id: "
 end
@@ -17,7 +16,8 @@ dnsserv.zones={
 	"dnsbl.ahbl.org",
 }
 function dnsserv.command(usr,target,msg)
-	runcount=0
+--	smesg("mitchserv","#somewhereelse","dnsserv.command")
+	local runcount=0
 	if msg:sub(1,#">dnsbl")==">dnsbl" then
 		local ip=msg:sub(#">dnsbl  ",#msg)
 		local lookup=msg:sub(#">dnsbl  ",#msg)
@@ -28,8 +28,9 @@ function dnsserv.command(usr,target,msg)
 			return
 		end
 		for k,v in pairs(dnsserv.zones) do
-			smesg("MitchServ","#somewhereelse",v)
-			local dnsresponse=dnscheck(ip.."."..v,runcount)
+--			smesg("mitchserv","#somewhereelse","loop")
+--			smesg("MitchServ","#somewhereelse",v)
+			local dnsresponse=dnscheck(ip.."."..v)
 			if dnsresponse=="NOERROR" then
 				smesg("MitchServ",target,"The IP "..lookup.." was found in the DNSBL "..v)
 			else
@@ -38,4 +39,4 @@ function dnsserv.command(usr,target,msg)
 		end
 	end
 end
-table.insert(cmdfuncs,dnsserv.command)
+cmdfuncs[dnsserv.command]=dnsserv.commands
