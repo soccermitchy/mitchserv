@@ -5,8 +5,8 @@ with newer versions of UnrealIRCd.
 How to set up (on debian):
 git clone https://github.com/soccermitchy/mitchserv.git
 cd mitchserv
-sudo apt-get install lua luarocks
-luarocks install luasocket nano
+sudo apt-get install lua luarocks nano
+luarocks install luasocket
 cp conf.json.example conf.json
 nano conf.json
 
