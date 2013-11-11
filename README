@@ -1,4 +1,4 @@
-MitchServ was a simple pseudoserver written for IotaIRC. The protocol that
+MitchServ was a simple pseudoserver written for unrealircd (originally for the network IotaIRC, now ElectronIRC). The protocol that
 this pseudoserver is unrealircd protocol number 2309, but it is compatable
 with newer versions of UnrealIRCd.
 
